@@ -21,12 +21,12 @@ type graphqlResponse struct {
 }
 
 func (w *Worker) configureCsrfToken() error {
-	var response, err = w.httpClient.Get("https://leetcode.com")
+	var response, err = w.httpClient.Get("https://leetcode.com/graphql/")
 	if err != nil {
 		slog.Error("Failed to send HTTP request")
 		return err
 	}
-	if response.StatusCode != http.StatusOK {
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusBadRequest {
 		slog.Warn("HTTP request failed", "status", response.Status)
 	}
 
@@ -52,7 +52,7 @@ func (w *Worker) sendGraphqlQuery(query string, variables map[string]any) (*json
 		return nil, marshalErr
 	}
 
-	var request, requestErr = http.NewRequest("POST", "https://leetcode.com/graphql", bytes.NewReader(requestBody))
+	var request, requestErr = http.NewRequest("POST", "https://leetcode.com/graphql/", bytes.NewReader(requestBody))
 	if requestErr != nil {
 		slog.Error("Failed to create HTTP request")
 		return nil, requestErr
