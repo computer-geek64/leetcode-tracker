@@ -47,15 +47,15 @@
         }
 
         table#scoreboard tbody tr:nth-child(1) {
-            background-color: gold;
+            background-color: #ffd700;
         }
 
         table#scoreboard tbody tr:nth-child(2) {
-            background-color: silver;
+            background-color: #c0c0c0;
         }
 
         table#scoreboard tbody tr:nth-child(3) {
-            background-color: bronze;
+            background-color: #a77044;
         }
 
         table#scoreboard th, td {
@@ -79,7 +79,7 @@
     <span id="since">Since: {{ .StartDate }}</span>
     <div id="refresh-section">
         <div>
-            <button id="refresh-button" onclick="requestRefresh()">Refresh</button>
+            <button id="refresh-button" onclick="requestRefresh(this)">Refresh</button>
         </div>
         <span id="last-refreshed">Last Refreshed: <span>{{ .LastRefresh }}</span></span>
     </div>
