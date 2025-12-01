@@ -30,5 +30,6 @@ type ScoreboardEntry struct {
 	Days int
 	Problems int
 	Score int
+	Streak int
 	Place int
 }

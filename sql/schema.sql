@@ -65,14 +65,14 @@ CREATE VIEW scoreboard AS (
                 CASE
                     WHEN p.difficulty = 'easy' THEN 1
                     WHEN p.difficulty = 'medium' THEN 2
-                    WHEN p.difficulty = 'hard' THEN 3
+                    WHEN p.difficulty = 'hard' THEN 5
                     ELSE NULL
                 END
             ) AS daily_score
         FROM problem AS p
         INNER JOIN valid_solution AS s
         ON p.id = s.problem_id
-        WHERE timestamp >= '2025-11-12'
+        WHERE timestamp >= '2025-12-01'
         GROUP BY username, timestamp::date
     ),
     total_cte AS (
