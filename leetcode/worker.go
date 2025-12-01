@@ -132,7 +132,7 @@ func (w *Worker) refresh() error {
 		case "Medium":
 			difficulty = database.DIFFICULTY_MEDIUM
 		case "Hard":
-			difficulty = database.DIFFICULTY_MEDIUM
+			difficulty = database.DIFFICULTY_HARD
 		default:
 			slog.Error("Unknown problem difficulty", "difficulty", question.Difficulty)
 			return fmt.Errorf("Unknown problem difficulty %s", question.Difficulty)
