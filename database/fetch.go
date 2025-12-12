@@ -31,7 +31,7 @@ total_cte AS (
 		username,
 		count(*) FILTER (WHERE daily_score >= 2) AS days,
 		sum(problems) AS problems,
-		sum(daily_score) AS score
+		sum(daily_score) AS raw_score
 	FROM daily_cte
 	GROUP BY username
 ),
@@ -55,9 +55,10 @@ SELECT
 	username,
 	days,
 	problems,
-	score,
+	raw_score,
+	days * 0.85 + raw_score * 0.15 AS weighted_score,
 	coalesce(streak, 0) AS streak,
-	rank() OVER (ORDER BY days DESC, score DESC, problems DESC, streak DESC) AS place
+	rank() OVER (ORDER BY weighted_score DESC, days DESC, raw_score DESC, problems DESC, streak DESC) AS place
 FROM total_cte
 LEFT JOIN streak_cte
 USING (username)
@@ -74,7 +75,7 @@ func GetScoreboard(db *sql.DB, startDate time.Time) ([]ScoreboardEntry, error) {
 	var scoreboard []ScoreboardEntry
 	for rows.Next() {
 		var scoreboardEntry ScoreboardEntry
-		if err := rows.Scan(&scoreboardEntry.Username, &scoreboardEntry.Days, &scoreboardEntry.Problems, &scoreboardEntry.Score, &scoreboardEntry.Streak, &scoreboardEntry.Place); err != nil {
+		if err := rows.Scan(&scoreboardEntry.Username, &scoreboardEntry.Days, &scoreboardEntry.Problems, &scoreboardEntry.RawScore, &scoreboardEntry.WeightedScore, &scoreboardEntry.Streak, &scoreboardEntry.Place); err != nil {
 			slog.Error("Failed to fetch values from query result")
 			return nil, err
 		}

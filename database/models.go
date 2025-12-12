@@ -29,7 +29,8 @@ type ScoreboardEntry struct {
 	Username string
 	Days int
 	Problems int
-	Score int
+	RawScore int
+	WeightedScore float64
 	Streak int
 	Place int
 }
