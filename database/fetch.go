@@ -56,9 +56,9 @@ SELECT
 	days,
 	problems,
 	raw_score,
-	days * 0.85 + raw_score * 0.15 AS weighted_score,
+	days * 0.5 + raw_score * 0.5 AS weighted_score,
 	coalesce(streak, 0) AS streak,
-	rank() OVER (ORDER BY days * 0.85 + raw_score * 0.15 DESC, days DESC, raw_score DESC, problems DESC, streak DESC) AS place
+	rank() OVER (ORDER BY days * 0.5 + raw_score * 0.5 DESC, days DESC, raw_score DESC, problems DESC, streak DESC) AS place
 FROM total_cte
 LEFT JOIN streak_cte
 USING (username)
